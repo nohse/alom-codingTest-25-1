@@ -1,0 +1,46 @@
+import sys
+from collections import deque
+input=sys.stdin.readline
+
+n, m= map(int, input().split())
+arr=[]
+for i in range(m):
+    row=list(map(int, input().split()))
+    arr.append(row)
+cnt=0
+que=deque()
+
+for k in range(m):
+    for l in range(n):
+        if arr[k][l]==1:
+            que.append((k, l, 0))
+        elif arr[k][l]==0:
+            cnt+=1
+
+
+
+def bfs():
+    dx=[1, -1, 0, 0]
+    dy=[0, 0, 1, -1]
+    global cnt
+    cur=1
+    depth=0
+    while que:
+        a, b, depth=que.popleft()
+        for z in range(4):
+            nx=a+dx[z]
+            ny=b+dy[z]
+            if 0<=nx<m and 0<=ny<n:
+                if arr[nx][ny]==0:
+                    que.append((nx,ny, depth+1))
+                    arr[nx][ny]=1
+                    cur+=1
+
+    if cnt==cur-1:
+        return depth
+    return -1
+
+print(bfs())
+            
+    
+    
